@@ -17,8 +17,8 @@ The Reader Application is a user-friendly mobile application that allows users t
   The application presents the data in an intuitive and visually appealing manner.
 
 ### 4. Book Rating 🌟
-Users can rate books based on their personal opinions and experiences.
-The rating system allows users to provide feedback and share their thoughts with other readers.
+- Users can rate books based on their personal opinions and experiences.
+  The rating system allows users to provide feedback and share their thoughts with other readers.
 
 ### 5. Wishlist ❣️
 - Users can save books to their wishlist for future reference or to keep track of books they wish to read.
