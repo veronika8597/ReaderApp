@@ -49,9 +49,9 @@ Build and run the application on an Android device or emulator.
 
 ## Technologies Used: 🤖
 
-1. Kotlin
-2. Firebase (Authentication and Firestore)
+1. Kotlin <img src="https://upload.wikimedia.org/wikipedia/commons/d/d4/Kotlin_logo.svg" width="100" height="20">
+2. Firebase (Authentication and Firestore) <img src="C:\Users\veronika\Pictures\logo\68747470733a2f2f75706c6f61642e77696b696d656469612e6f72672f77696b6970656469612f636f6d6d6f6e732f622f62642f46697265626173655f4c6f676f2e706e67.png" width="100" height="30">
 3. Google Books API
 
 ## Contact 🤓
-If you have any questions, suggestions, or feedback, please feel free to contact the project maintainer at vika.kovaliov@gmail.com.
+If you have any questions, suggestions, or feedback, please feel free to contact the project maintainer at vika.kovaliov@gmail.com
