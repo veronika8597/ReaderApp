@@ -1,6 +1,7 @@
 # Reader Application 📖
+<img src="app/src/main/res/drawable/stitch.gif" width="120" height="120">
 
-## Introduction 🙋🏼
+## Introduction
 The Reader Application is a user-friendly mobile application that allows users to search for books, read information about them, rate them, save them to their wishlist, and modify their thoughts about the books. The application utilizes Kotlin programming language, Firebase for user authentication and data storage, and Google's API to fetch book data. It provides a seamless experience for book enthusiasts.
 
 ## Features ⚙️
@@ -49,9 +50,9 @@ Build and run the application on an Android device or emulator.
 
 ## Technologies Used: 🤖
 
-1. Kotlin <img src="app/src/main/res/drawable/kotlin.png" width="100" height="20">
-2. Firebase (Authentication and Firestore) <img src="app/src/main/res/drawable/firebase.png" width="100" height="30">
-3. Google Books API <img src="app/src/main/res/drawable/google.png" width="100" height="30">
+1. Kotlin <img src="app/src/main/res/drawable/kotlin.png" width="100" height="25">
+2. Firebase (Authentication and Firestore) <img src="app/src/main/res/drawable/firebase.png" width="100" height="32">
+3. Google Books API <img src="app/src/main/res/drawable/google.png" width="100" height="35">
 
 ## Contact 🤓
 If you have any questions, suggestions, or feedback, please feel free to contact the project maintainer at vika.kovaliov@gmail.com
