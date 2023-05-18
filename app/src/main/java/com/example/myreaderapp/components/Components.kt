@@ -24,10 +24,10 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun ReaderLogo(modifier: Modifier = Modifier) {
-    Text(text = "Reader",
-        modifier = modifier.padding(bottom = 16.dp),
+    Text(text = "BloomReads",
+        modifier = modifier.padding(top = 35.dp ,bottom = 80.dp),
         style = MaterialTheme.typography.h3,
-        color = Color.Red.copy(alpha = 0.5f)
+        color = Color.Black.copy(alpha = 0.7f)
     )
 }
 

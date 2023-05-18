@@ -28,7 +28,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ReaderApp()
-
         }
     }
 }
@@ -43,12 +42,11 @@ fun ReaderApp(){
             Column(verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally) {
                 ReaderNavigation()
-
                 
             }
         }
 
-        }
+    }
 
 }
 
