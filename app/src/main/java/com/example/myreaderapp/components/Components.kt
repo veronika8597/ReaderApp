@@ -1,5 +1,8 @@
 package com.example.myreaderapp.components
 
+import android.content.res.Resources
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
@@ -10,6 +13,7 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
@@ -21,13 +25,15 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myreaderapp.ui.theme.BerkshireSwashTypography
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ReaderLogo(modifier: Modifier = Modifier) {
     Text(text = "BloomReads",
-        modifier = modifier.padding(top = 35.dp ,bottom = 80.dp),
-        style = MaterialTheme.typography.h3,
-        color = Color.Black.copy(alpha = 0.7f)
+        modifier = modifier.padding(top = 35.dp ,bottom = 35.dp),
+        style = BerkshireSwashTypography.h1,
+        color = Color(0xFF466B53)
     )
 }
 

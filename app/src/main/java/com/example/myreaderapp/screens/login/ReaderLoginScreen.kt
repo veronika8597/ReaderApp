@@ -1,6 +1,8 @@
 package com.example.myreaderapp.screens.login
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -37,6 +39,7 @@ import com.example.myreaderapp.components.PasswordInput
 import com.example.myreaderapp.components.ReaderLogo
 import com.example.myreaderapp.navigation.ReaderScreens
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ReaderLoginScreen(navController: NavController,
                       viewModel: LoginScreenViewModel = androidx.lifecycle.viewmodel.compose.viewModel()){
@@ -87,7 +90,7 @@ fun ReaderLoginScreen(navController: NavController,
                         }
                         .padding(start = 5.dp),
                       fontWeight = FontWeight.Bold,
-                      color = MaterialTheme.colors.secondaryVariant)
+                      color = MaterialTheme.colors.primaryVariant)
             }
 
     }
