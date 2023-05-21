@@ -65,9 +65,9 @@ fun ReaderSplashScreen(navController: NavController){
 
         // border = BorderStroke(width = 2.dp, Color.LightGray)
         Image(
-            painter = painterResource(id = R.drawable.girlreading),
+            painter = painterResource(id = R.drawable.logobig),
             contentDescription = null,
-            modifier = Modifier.fillMaxSize().alpha(0.5f),
+            modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
         )
 
@@ -76,11 +76,11 @@ fun ReaderSplashScreen(navController: NavController){
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            ReaderLogo()
+            //ReaderLogo()
             Spacer(modifier = Modifier.heightIn(15.dp))
-            Text(text = "Read. Explore. Enrich.",
+            /*Text(text = "Read. Explore. Enrich.",
             style = MaterialTheme.typography.h5,
-            color = Color.LightGray)
+            color = Color.LightGray)*/
         }
     }
 
