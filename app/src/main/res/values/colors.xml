@@ -7,5 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="coral">#FF7F50</color>
+    <color name="coral_pink">#F88379</color>
+    <color name="tea_rose">#FBCCC6</color>
+    <color name="pakistan_green">#253A03</color>
+    <color name="olivin">#9DC087</color>
+    <color name="nyanza">#D3E3CA</color>
 </resources>

@@ -49,7 +49,7 @@ fun ReaderLoginScreen(navController: NavController,
     Surface(modifier = Modifier.fillMaxSize())
         {
             Image(
-                painter = painterResource(id = R.drawable.abstract2),
+                painter = painterResource(id = R.drawable.abstractt),
                 contentDescription = null,
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop

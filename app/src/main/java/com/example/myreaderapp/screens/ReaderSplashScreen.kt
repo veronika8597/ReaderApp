@@ -65,7 +65,7 @@ fun ReaderSplashScreen(navController: NavController){
 
         // border = BorderStroke(width = 2.dp, Color.LightGray)
         Image(
-            painter = painterResource(id = R.drawable.logobig),
+            painter = painterResource(id = R.drawable.logobig2),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
