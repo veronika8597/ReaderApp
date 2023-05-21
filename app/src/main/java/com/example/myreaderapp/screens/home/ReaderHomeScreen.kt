@@ -1,18 +1,26 @@
 package com.example.myreaderapp.screens.home
 
 
+import android.nfc.Tag
+import android.telecom.Call.Details
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
@@ -28,6 +36,9 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Logout
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.StarBorder
+import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,7 +56,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.rememberImagePainter
 import com.example.myreaderapp.ReaderApplication
+import com.example.myreaderapp.components.BookRating
+import com.example.myreaderapp.components.FABContent
+import com.example.myreaderapp.components.ListCard
+import com.example.myreaderapp.components.ReaderAppBar
+import com.example.myreaderapp.components.TitleSection
 import com.example.myreaderapp.model.MBook
 import com.example.myreaderapp.navigation.ReaderScreens
 import com.google.firebase.R
@@ -78,7 +95,14 @@ fun Home(navController: NavController = NavController(LocalContext.current)){
 
 @Composable
 fun HomeContent(navController: NavController){
-    Column(Modifier.padding(2.dp), verticalArrangement = Arrangement.SpaceEvenly) {
+
+    val listOfBooks = listOf(MBook(id = "hfsdjkfhj", title = "Hello Again", authors = "All of us",notes = null),
+        MBook(id = "hfsdjkfhj", title = "Hello ", authors = "All of us",notes = null),
+        MBook(id = "hfsdjkfhj", title = " Again", authors = "All of us",notes = null),
+        MBook(id = "hfsdjkfhj", title = "Hello Again", authors = "All of us",notes = null))
+
+    Column(Modifier.padding(2.dp),
+        verticalArrangement = Arrangement.Top) {
 
         val currentUserName = if (!FirebaseAuth.getInstance().currentUser?.email.isNullOrEmpty())
             FirebaseAuth.getInstance().currentUser?.email?.split("@")?.get(0)else
@@ -98,82 +122,54 @@ fun HomeContent(navController: NavController){
             }
 
         }
+
+        ReadingRightNowArea(books = listOf(), navController = navController)
+
+        TitleSection(label = "reading List")
+
+        BoolListArea(listOfBooks = listOfBooks, navController = navController)
         
     }
 
 
 }
 
-
 @Composable
-fun ReaderAppBar(
-    title: String,
-    showProfile: Boolean = true,
-    navController: NavController
-){
+fun BoolListArea(listOfBooks: List<MBook>, navController: NavController) {
 
-    TopAppBar(title = {
-                      Row(verticalAlignment = Alignment.CenterVertically) {
-                          if (showProfile){
-                             Image(imageVector = Icons.Default.Favorite,
-                                 contentDescription = "Logo Icon",
-                                 modifier = Modifier
-                                     .clip(RoundedCornerShape(12.dp))
-                                     .scale(0.8f))
-                          }
-                          Text(text = title,
-                          color = Color.Red.copy(alpha =  0.7f),
-                          style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp))
-                          
-                          Spacer(modifier = Modifier.width(150.dp))
-                          
-                      }
-                      
-    },
-        actions = {
-                  IconButton(onClick = {
-                      FirebaseAuth.getInstance().signOut().run {
-                          navController.navigate(ReaderScreens.LoginScreen.name)
-                      }
-                  }) {
-                      Icon(imageVector = Icons.Filled.Logout,
-                          contentDescription = "Logout",
-                          tint = Color.Green.copy(alpha = 0.4f)  )
-
-                  }
-        },
-        backgroundColor = Color.Transparent,
-        elevation = 0.dp)
-        
-
+    HorizontalScrollableComponent(listOfBooks){
+        Log.d("TAG", "BoolListArea: $it")
+        //Todo: on card clicked go to details
+    }
 
 }
 
 @Composable
-fun TitleSection(modifier: Modifier = Modifier, label:String){
-    Surface(modifier = modifier.padding(start = 5.dp, top = 1.dp)) {
-        Column {
-            Text(text = label, fontSize = 19.sp, fontStyle = FontStyle.Normal, textAlign = TextAlign.Left)
+fun HorizontalScrollableComponent(listOfBooks: List<MBook>,onCardPressed: (String) -> Unit) {
+    val scrollState = rememberScrollState()
+    
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .heightIn(280.dp)
+        .horizontalScroll(scrollState)) {
+
+        for (book in listOfBooks){
+            ListCard(book){
+                onCardPressed(it)
+            }
+
         }
+        
     }
-}
 
+}
 
 
 @Composable
 fun ReadingRightNowArea(books: List<MBook>,
                         navController: NavController) {
+    ListCard()
 
 
-}
 
-@Composable
-fun FABContent(onTap: () -> Unit) {
-    FloatingActionButton(onClick = {onTap() },
-        shape = RoundedCornerShape(50.dp),
-        backgroundColor = Color(color = 0xFF92CBDF)
-    ) {
-        Icon(imageVector = Icons.Default.Add, contentDescription = "Add a Book",
-            tint = Color.White)
-    }
 }
