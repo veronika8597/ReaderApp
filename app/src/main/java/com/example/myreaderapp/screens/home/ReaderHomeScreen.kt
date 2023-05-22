@@ -1,10 +1,12 @@
 package com.example.myreaderapp.screens.home
 
 
+import android.annotation.SuppressLint
 import android.nfc.Tag
 import android.telecom.Call.Details
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -45,6 +47,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -65,26 +68,36 @@ import com.example.myreaderapp.components.ReaderAppBar
 import com.example.myreaderapp.components.TitleSection
 import com.example.myreaderapp.model.MBook
 import com.example.myreaderapp.navigation.ReaderScreens
+import com.example.myreaderapp.ui.theme.Green700
 import com.google.firebase.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.rpc.RetryInfo
 
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Preview
 @Composable
 fun Home(navController: NavController = NavController(LocalContext.current)){
     Scaffold(topBar = {
-                      ReaderAppBar(title = "MY BOOK", navController = navController)
+                      ReaderAppBar(title = "BloomReads", navController = navController)
 
     },
         floatingActionButton = {
-            FABContent{}
+            FABContent{
+                navController.navigate(ReaderScreens.SearchScreen.name)
+            }
 
 
         } ) {
-
-
-        Surface(modifier = Modifier.fillMaxSize()) {
+        Surface(modifier = Modifier.fillMaxSize()
+            ) {
+            Image(
+                painter = painterResource(id = com.example.myreaderapp.R.drawable.abstractt),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop,
+                alpha = 0.35f
+            )
                 //home content
             HomeContent(navController)
         }
@@ -116,8 +129,8 @@ fun HomeContent(navController: NavController){
                     .clickable {
                         navController.navigate(ReaderScreens.ReaderStatsScreen.name)
                     }
-                    .size(45.dp), tint = MaterialTheme.colors.secondaryVariant)
-                Text(text = currentUserName!!, modifier = Modifier.padding(2.dp), style = MaterialTheme.typography.overline, color = Color.Red, fontSize = 15.sp, maxLines = 1, overflow = TextOverflow.Clip)
+                    .size(45.dp), tint = MaterialTheme.colors.primaryVariant)
+                Text(text = currentUserName!!, modifier = Modifier.padding(2.dp), style = MaterialTheme.typography.overline, color = Green700, fontSize = 15.sp, maxLines = 1, overflow = TextOverflow.Clip)
                 Divider()
             }
 
@@ -173,6 +186,3 @@ fun ReadingRightNowArea(books: List<MBook>,
 
 
 }
-
-//test
-

@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.sp
 import com.example.myreaderapp.R
 import java.time.format.TextStyle
 
-private val BerkshireSwash = FontFamily(
+val BerkshireSwash = FontFamily(
     Font(R.font.berkshireswash_regular, FontWeight.W400)
 )
 

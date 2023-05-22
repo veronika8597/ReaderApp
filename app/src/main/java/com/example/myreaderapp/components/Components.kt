@@ -3,6 +3,7 @@ package com.example.myreaderapp.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,6 +20,7 @@ import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -37,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
@@ -54,6 +57,10 @@ import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.example.myreaderapp.model.MBook
 import com.example.myreaderapp.navigation.ReaderScreens
+import com.example.myreaderapp.ui.theme.BerkshireSwash
+import com.example.myreaderapp.ui.theme.BerkshireSwashTypography
+import com.example.myreaderapp.ui.theme.Green500
+import com.example.myreaderapp.ui.theme.Green700
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
@@ -223,7 +230,7 @@ fun ListCard(book : MBook = MBook("sdsdsd","Running","Me and you","hello world")
 @Composable
 fun RoundedButton(label: String = "Reading", radius: Int = 29,onPress: () -> Unit = {}){
 
-    Surface(modifier = Modifier.clip(RoundedCornerShape(bottomEndPercent = radius, topStartPercent = radius)), color = Color(0xFF92CBDF)) {
+    Surface(modifier = Modifier.clip(RoundedCornerShape(bottomEndPercent = radius, topStartPercent = radius)), color = Color(0xFF9DC087)) {
         Column(modifier = Modifier
             .width(90.dp)
             .heightIn(40.dp)
@@ -232,13 +239,7 @@ fun RoundedButton(label: String = "Reading", radius: Int = 29,onPress: () -> Uni
             Text(text = label, style = TextStyle(color = Color.White, fontSize = 15.sp) )
 
         }
-
-
     }
-
-
-
-
 }
 
 @Composable
@@ -268,8 +269,10 @@ fun TitleSection(modifier: Modifier = Modifier, label:String){
 @Composable
 fun ReaderAppBar(
     title: String,
+    icon: ImageVector? = null,
     showProfile: Boolean = true,
-    navController: NavController
+    navController: NavController,
+    onBackArrowClicked: () -> Unit = {}
 ){
 
     TopAppBar(title = {
@@ -281,11 +284,17 @@ fun ReaderAppBar(
                         .clip(RoundedCornerShape(12.dp))
                         .scale(0.8f))
             }
+            if(icon != null){
+                Icon(imageVector = icon, contentDescription = "arrow back",
+                tint = Green700,
+                modifier = Modifier.clickable { onBackArrowClicked.invoke() })
+            }
+            Spacer(modifier = Modifier.width(40.dp))
             Text(text = title,
-                color = Color.Red.copy(alpha =  0.7f),
-                style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp))
+                color = Color(0XFFF88379),
+                style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp, fontFamily = BerkshireSwash))
 
-            Spacer(modifier = Modifier.width(150.dp))
+
 
         }
 
@@ -296,9 +305,14 @@ fun ReaderAppBar(
                     navController.navigate(ReaderScreens.LoginScreen.name)
                 }
             }) {
-                Icon(imageVector = Icons.Filled.Logout,
-                    contentDescription = "Logout",
-                    tint = Color.Green.copy(alpha = 0.4f)  )
+                if(showProfile) Row() {
+                    Icon(
+                        imageVector = Icons.Filled.Logout,
+                        contentDescription = "Logout",
+                        tint = Green700.copy(alpha = 0.9f)
+                    )
+                }else Box(modifier = Modifier)
+                    
 
             }
         },
@@ -315,7 +329,7 @@ fun ReaderAppBar(
 fun FABContent(onTap: () -> Unit) {
     FloatingActionButton(onClick = {onTap() },
         shape = RoundedCornerShape(50.dp),
-        backgroundColor = Color(color = 0xFF92CBDF)
+        backgroundColor = Green500
     ) {
         Icon(imageVector = Icons.Default.Add, contentDescription = "Add a Book",
             tint = Color.White)

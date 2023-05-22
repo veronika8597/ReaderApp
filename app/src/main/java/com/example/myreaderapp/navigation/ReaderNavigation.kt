@@ -1,5 +1,7 @@
 package com.example.myreaderapp.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -10,6 +12,7 @@ import com.example.myreaderapp.screens.login.ReaderLoginScreen
 import com.example.myreaderapp.screens.search.ReaderSearchScreen
 import com.example.myreaderapp.screens.stats.ReaderStatsScreen
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ReaderNavigation() {
 
