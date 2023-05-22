@@ -55,4 +55,4 @@ Build and run the application on an Android device or emulator.
 3. Google Books API <img src="app/src/main/res/drawable/google.png" width="100" height="35">
 
 ## Contact 🤓
-If you have any questions, suggestions, or feedback, please feel free to contact the project maintainer at vika.kovaliov@gmail.com
+If you have any questions, suggestions, or feedback, please feel free to contact the project maintainers at vika.kovaliov@gmail.com or gers7777@gmail.com
