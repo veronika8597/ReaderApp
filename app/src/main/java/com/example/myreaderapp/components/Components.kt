@@ -1,5 +1,7 @@
 package com.example.myreaderapp.components
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -63,12 +65,13 @@ import com.example.myreaderapp.ui.theme.Green500
 import com.example.myreaderapp.ui.theme.Green700
 import com.google.firebase.auth.FirebaseAuth
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ReaderLogo(modifier: Modifier = Modifier) {
     Text(text = "BloomReads",
         modifier = modifier.padding(top = 35.dp ,bottom = 80.dp),
-        style = MaterialTheme.typography.h3,
-        color = Color.Black.copy(alpha = 0.7f)
+        style = BerkshireSwashTypography.h1,
+        color = Color(0xFF62846E)
     )
 }
 

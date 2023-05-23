@@ -39,6 +39,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.example.myreaderapp.components.InputField
@@ -48,7 +49,7 @@ import com.example.myreaderapp.navigation.ReaderScreens
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun ReaderSearchScreen(navController: NavController){
+fun ReaderSearchScreen(navController: NavController, viewModel: BookSearchViewModel = hiltViewModel()){
     Scaffold(topBar = {
         ReaderAppBar(title = "Search Books",
             icon = Icons.Default.ArrowBack,
@@ -61,8 +62,9 @@ fun ReaderSearchScreen(navController: NavController){
             Column {
                 SearchForm(modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)){
-                    Log.d("TAG", "SearchScreen: $it")
+                    .padding(16.dp),
+                viewModel){query ->
+                    viewModel.searchBooks(query)
                 }
                 Spacer(modifier = Modifier.height(13.dp))
                 BookList(navController)
@@ -108,7 +110,10 @@ fun BookRow(book: MBook, navController: NavController) {
         verticalAlignment = Alignment.Top) {
             val imageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbTX0mvWV40iwuM5P_deNJfg16J-MmUTMQCyVl2KEIkQ&s"
             Image(painter = rememberImagePainter(data = imageUrl), contentDescription = "bookImage",
-            modifier = Modifier.width(80.dp).fillMaxHeight().padding(end = 4.dp))
+            modifier = Modifier
+                .width(80.dp)
+                .fillMaxHeight()
+                .padding(end = 4.dp))
             Column() {
                 Text(text = book.title.toString(), overflow = TextOverflow.Ellipsis)
                 Text(text ="Author: ${book.authors}", overflow = TextOverflow.Clip,
@@ -127,6 +132,7 @@ fun BookRow(book: MBook, navController: NavController) {
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun SearchForm(modifier: Modifier = Modifier,
+               viewModel: BookSearchViewModel,
                loading: Boolean = false,
                hint: String = "Search",
                onSearch: (String) -> Unit = {}){
