@@ -1,7 +1,9 @@
 package com.example.myreaderapp.screens.details
 
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
 import android.media.Image
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -37,10 +39,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import com.example.myreaderapp.components.ReaderAppBar
+import com.example.myreaderapp.components.RoundedButton
 import com.example.myreaderapp.data.Resource
 import com.example.myreaderapp.model.Item
+import com.example.myreaderapp.model.MBook
 import com.example.myreaderapp.navigation.ReaderScreens
 import com.example.myreaderapp.ui.theme.Coral500
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import org.w3c.dom.Text
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -147,4 +154,59 @@ fun ShowBookDetails(bookInfo: Resource<Item>, navController: NavController) {
                 }
             }
     }
+
+    //Buttons:
+    Row(modifier = Modifier.padding(top = 6.dp),
+    horizontalArrangement = Arrangement.SpaceAround) {
+        RoundedButton(label = "Save"){
+            //Save the book into the FireBase DB
+            val book = MBook(
+                title = bookData.title.toString(),
+                authors = bookData.authors.toString(),
+                description = bookData.description.toString(),
+                categories = bookData.description.toString(),
+                notes = "",
+                photoUrl = bookData.imageLinks.thumbnail,
+                publishedDate = bookData.publishedDate,
+                pageCount = bookData.pageCount.toString(),
+                rating = 0.0,
+                googleBookId = googleBookId,
+                userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
+            )
+            saveToFirebase(book, navController = navController)
+        }
+        Spacer(modifier = Modifier.width(25.dp))
+        RoundedButton(label = "Cancel"){
+            navController.popBackStack()
+        }
+
+    }
+}
+
+
+fun saveToFirebase(book: MBook, navController: NavController) {
+
+    val db = FirebaseFirestore.getInstance()
+    val dbCollection = db.collection("books")
+
+    if (book.toString().isNotEmpty()){
+
+        dbCollection.add(book)
+            .addOnSuccessListener { documentRef ->
+                val docId = documentRef.id
+                dbCollection.document(docId).update(hashMapOf("id" to docId) as Map<String, Any>)
+                    .addOnCompleteListener{task ->
+                        if (task.isSuccessful){
+                            navController.popBackStack()
+                        }
+                    }.addOnFailureListener {
+                        Log.w(TAG, "SaveToFirebase: Error updating doc", it)
+                    }
+            }
+
+    }else{
+
+    }
+
+
 }
