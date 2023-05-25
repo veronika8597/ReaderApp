@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
@@ -36,10 +37,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,6 +51,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
+import com.example.myreaderapp.R
 import com.example.myreaderapp.components.InputField
 import com.example.myreaderapp.components.ReaderAppBar
 import com.example.myreaderapp.model.Item
@@ -89,22 +94,37 @@ fun BookList(navController: NavController,
 
     val listOfBooks = viewModel.list
 
-    if (viewModel.isLoading){
-        Row(modifier = Modifier.padding(end = 2.dp),
-            horizontalArrangement = Arrangement.SpaceAround,
-            verticalAlignment = Alignment.CenterVertically) {
-            LinearProgressIndicator()
-            Text(text = "Loading...")
-        }
+    Surface(modifier = Modifier.fillMaxSize())
+    {
+        Image(
+            painter = painterResource(id = R.drawable.abstractt),
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop,
+            alpha = 0.35f
+        )
 
-    }else {
-        LazyColumn(modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(16.dp)){
-            items(items = listOfBooks) { book ->
-                BookRow(book, navController)
-
+        if (viewModel.isLoading) {
+            Row(
+                modifier = Modifier.padding(end = 2.dp),
+                horizontalArrangement = Arrangement.SpaceAround,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                LinearProgressIndicator()
+                Text(text = "Loading...")
             }
 
+        } else {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(16.dp)
+            ) {
+                items(items = listOfBooks) { book ->
+                    BookRow(book, navController)
+
+                }
+
+            }
         }
     }
 
@@ -119,7 +139,9 @@ fun BookRow(book: Item, navController: NavController) {
         .fillMaxWidth()
         .height(115.dp)
         .padding(3.dp),
-    shape = RectangleShape,
+    shape = RoundedCornerShape(10.dp),
+        backgroundColor = Color.White.copy(alpha = 0.85f),
+
     elevation = 7.dp) {
         Row(modifier = Modifier.padding(5.dp),
         verticalAlignment = Alignment.Top) {

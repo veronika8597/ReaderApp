@@ -22,7 +22,6 @@ import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.MaterialTheme.typography
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -170,31 +169,29 @@ fun BookRating(score: Double = 4.5) {
 
 }
 
-@Preview
 @Composable
-fun ListCard(book : MBook = MBook("sdsdsd","Running","Me and you","hello world"), onPressDetails: (String) -> Unit = {}){
+fun ListCard(book: MBook,
+             onPressDetails: (String) -> Unit = {}){
     val context = LocalContext.current
     val resources = context.resources
 
     val displayMetrics = resources.displayMetrics
 
-    val screenWeight = displayMetrics.widthPixels / displayMetrics.density
+    val screenWidth = displayMetrics.widthPixels / displayMetrics.density
     val spacing = 10.dp
 
-    Card(shape = RoundedCornerShape(29.dp), backgroundColor = Color.White, elevation = 6.dp, modifier = Modifier
+    Card(shape = RoundedCornerShape(29.dp), backgroundColor = Color.White.copy(alpha = 0.87f), elevation = 6.dp, modifier = Modifier
         .padding(16.dp)
         .height(242.dp)
         .width(202.dp)
-        .clickable {
-            onPressDetails.invoke(
-                book.title.toString()
-            )
-        }) {
+        .clickable { onPressDetails.invoke(book.title.toString()) }) {
 
-        Column(modifier = Modifier.width(screenWeight.dp - (spacing * 2)), horizontalAlignment = Alignment.Start) {
+        Column(modifier = Modifier.width(screenWidth.dp - (spacing * 2)),
+            horizontalAlignment = Alignment.Start) {
             Row(horizontalArrangement = Arrangement.Center) {
 
-                Image(painter = rememberImagePainter(data = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbTX0mvWV40iwuM5P_deNJfg16J-MmUTMQCyVl2KEIkQ&s"), contentDescription = "book Image", modifier = Modifier
+                Image(painter = rememberImagePainter(data = book.photoUrl.toString()),
+                    contentDescription = "book Image", modifier = Modifier
                     .height(140.dp)
                     .width(100.dp)
                     .padding(4.dp))
@@ -204,30 +201,18 @@ fun ListCard(book : MBook = MBook("sdsdsd","Running","Me and you","hello world")
                     Icon(imageVector = Icons.Rounded.FavoriteBorder, contentDescription = "Fav Icon", modifier = Modifier.padding(bottom = 1.dp))
 
                     BookRating(score = 3.5)
-
-
-
-
                 }
 
             }
             Text(text = book.title.toString(), modifier = Modifier.padding(4.dp), fontWeight = FontWeight.Bold, maxLines = 2, overflow = TextOverflow.Ellipsis)
             Text(text = book.authors.toString(), modifier = Modifier.padding(4.dp), style = MaterialTheme.typography.caption)
 
-
-
         }
 
         Row(horizontalArrangement = Arrangement.End, verticalAlignment = Alignment.Bottom) {
             RoundedButton(label = "Reading", radius = 70)
-
-
         }
-
-
     }
-
-
 }
 @Preview
 @Composable
@@ -276,55 +261,60 @@ fun ReaderAppBar(
     showProfile: Boolean = true,
     navController: NavController,
     onBackArrowClicked: () -> Unit = {}
-){
+) {
 
-    TopAppBar(title = {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            if (showProfile){
-                Image(imageVector = Icons.Default.Favorite,
-                    contentDescription = "Logo Icon",
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(12.dp))
-                        .scale(0.8f))
+    TopAppBar(
+        title = {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                if (showProfile) {
+                    Image(
+                        imageVector = Icons.Default.Favorite,
+                        contentDescription = "Logo Icon",
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(12.dp))
+                            .scale(0.8f)
+                    )
+                }
+                if (icon != null) {
+                    Icon(imageVector = icon, contentDescription = "arrow back",
+                        tint = Green700,
+                        modifier = Modifier.clickable { onBackArrowClicked.invoke() })
+                }
+                Spacer(modifier = Modifier.width(40.dp))
+                Text(
+                    text = title,
+                    color = Color(0XFFF88379),
+                    style = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        fontFamily = BerkshireSwash
+                    )
+                )
+
+
             }
-            if(icon != null){
-                Icon(imageVector = icon, contentDescription = "arrow back",
-                tint = Green700,
-                modifier = Modifier.clickable { onBackArrowClicked.invoke() })
-            }
-            Spacer(modifier = Modifier.width(40.dp))
-            Text(text = title,
-                color = Color(0XFFF88379),
-                style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp, fontFamily = BerkshireSwash))
 
-
-
-        }
-
-    },
+        },
         actions = {
             IconButton(onClick = {
                 FirebaseAuth.getInstance().signOut().run {
                     navController.navigate(ReaderScreens.LoginScreen.name)
                 }
             }) {
-                if(showProfile) Row() {
+                if (showProfile) Row() {
                     Icon(
                         imageVector = Icons.Filled.Logout,
                         contentDescription = "Logout",
                         tint = Green700.copy(alpha = 0.9f)
                     )
-                }else Box(modifier = Modifier)
-                    
-
+                } else Box(modifier = Modifier)
             }
         },
         backgroundColor = Color.Transparent,
-        elevation = 0.dp)
-
-
-
+        elevation = 0.dp
+    )
 }
+
 
 
 

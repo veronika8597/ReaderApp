@@ -76,7 +76,6 @@ fun BookDetailsScreen(navController: NavController,
                 horizontalAlignment = Alignment.CenterHorizontally) {
 
                 val bookInfo = produceState<Resource<Item>>(initialValue = Resource.Loading()){
-
                     value = viewModel.getBookInfo(bookId)
                 }.value
 
@@ -137,7 +136,7 @@ fun ShowBookDetails(bookInfo: Resource<Item>, navController: NavController) {
     Spacer(modifier = Modifier.height(5.dp))
 
     val cleanDescription = HtmlCompat.fromHtml(bookData!!.description,
-        HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
+                                               HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
 
     val localDims = LocalContext.current.resources.displayMetrics
 
@@ -161,10 +160,10 @@ fun ShowBookDetails(bookInfo: Resource<Item>, navController: NavController) {
         RoundedButton(label = "Save"){
             //Save the book into the FireBase DB
             val book = MBook(
-                title = bookData.title.toString(),
+                title = bookData.title,
                 authors = bookData.authors.toString(),
-                description = bookData.description.toString(),
-                categories = bookData.description.toString(),
+                description = bookData.description,
+                categories = bookData.description,
                 notes = "",
                 photoUrl = bookData.imageLinks.thumbnail,
                 publishedDate = bookData.publishedDate,
@@ -194,7 +193,8 @@ fun saveToFirebase(book: MBook, navController: NavController) {
         dbCollection.add(book)
             .addOnSuccessListener { documentRef ->
                 val docId = documentRef.id
-                dbCollection.document(docId).update(hashMapOf("id" to docId) as Map<String, Any>)
+                dbCollection.document(docId)
+                    .update(hashMapOf("id" to docId) as Map<String, Any>)
                     .addOnCompleteListener{task ->
                         if (task.isSuccessful){
                             navController.popBackStack()
