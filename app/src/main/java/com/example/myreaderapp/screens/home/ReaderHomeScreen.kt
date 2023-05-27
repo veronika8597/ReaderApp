@@ -58,7 +58,6 @@ fun Home(navController: NavController, viewModel: HomeScreenViewModel = hiltView
                 navController.navigate(ReaderScreens.SearchScreen.name)
             }
 
-
         } ) {
         Surface(modifier = Modifier.fillMaxSize()
             ) {
