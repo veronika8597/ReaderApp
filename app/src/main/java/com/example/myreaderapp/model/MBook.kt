@@ -1,8 +1,8 @@
 package com.example.myreaderapp.model
 
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.PropertyName
-import java.security.Timestamp
 
 data class MBook(@Exclude var id: String? = null,
                  var title: String? = null,

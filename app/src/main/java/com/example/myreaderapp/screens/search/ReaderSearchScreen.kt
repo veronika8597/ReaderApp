@@ -1,9 +1,6 @@
 package com.example.myreaderapp.screens.search
 
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
-import android.util.Log
-import android.util.MonthDisplayHelper
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,7 +19,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -38,15 +34,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.modifier.modifierLocalConsumer
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -55,7 +47,6 @@ import com.example.myreaderapp.R
 import com.example.myreaderapp.components.InputField
 import com.example.myreaderapp.components.ReaderAppBar
 import com.example.myreaderapp.model.Item
-import com.example.myreaderapp.model.MBook
 import com.example.myreaderapp.navigation.ReaderScreens
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -146,7 +137,10 @@ fun BookRow(book: Item, navController: NavController) {
         Row(modifier = Modifier.padding(5.dp),
         verticalAlignment = Alignment.Top) {
 
-            val imageUrl: String = book.volumeInfo.imageLinks.smallThumbnail.ifEmpty { "https://images.unsplash.com/photo-1541963463532-d68292c34b19?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=80&q=80" }
+            val imageUrl: String = if(book.volumeInfo.imageLinks?.smallThumbnail.isNullOrEmpty()) { "https://images.unsplash.com/photo-1541963463532-d68292c34b19?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=80&q=80" }
+            else{
+                book.volumeInfo.imageLinks!!.smallThumbnail
+            }
 
             Image(painter = rememberImagePainter(data = imageUrl), contentDescription = "bookImage",
             modifier = Modifier
