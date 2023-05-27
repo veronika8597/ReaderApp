@@ -1,9 +1,6 @@
 package com.example.myreaderapp.screens.update
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,7 +16,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.material.AlertDialog
 import androidx.compose.material.Card
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
@@ -30,7 +26,6 @@ import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
@@ -41,28 +36,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.modifier.modifierLocalOf
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
-import com.example.myreaderapp.R
 import com.example.myreaderapp.components.InputField
 import com.example.myreaderapp.components.RatingBar
 import com.example.myreaderapp.components.ReaderAppBar
-import com.example.myreaderapp.components.RoundedButton
 import com.example.myreaderapp.data.DataOrException
-import com.example.myreaderapp.model.MBook
-import com.example.myreaderapp.navigation.ReaderScreens
 import com.example.myreaderapp.screens.home.HomeScreenViewModel
-import com.example.myreaderapp.utils.formatDate
-import com.google.firebase.Timestamp
-import com.google.firebase.firestore.FirebaseFirestore
-
+import com.example.myreaderapp.model.MBook
+import java.lang.Exception
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -71,7 +59,7 @@ fun BookUpdateScreen(navController: NavController,
                      viewModel: HomeScreenViewModel = hiltViewModel()){
 
     Scaffold(topBar = {
-        ReaderAppBar(title = "Update Book",
+        ReaderAppBar(title = "Update Book", 
             icon = Icons.Default.ArrowBack,
             showProfile = false,
             navController = navController){
@@ -96,7 +84,7 @@ fun BookUpdateScreen(navController: NavController,
                     LinearProgressIndicator()
                     bookInfo.loading = false
                 } else {
-
+                    
                     Surface(modifier = Modifier
                         .padding(2.dp)
                         .fillMaxWidth(),
@@ -109,6 +97,7 @@ fun BookUpdateScreen(navController: NavController,
                     ShowSimpleForm(book = viewModel.data.value.data?.first { mBook ->
                         mBook.googleBookId == bookItemId
                     }!!, navController)
+
                 }
             }
         }
@@ -119,8 +108,6 @@ fun BookUpdateScreen(navController: NavController,
 @Composable
 fun ShowSimpleForm(book: MBook,
                    navController: NavController) {
-
-    val context = LocalContext.current
 
     val notesText = remember {
         mutableStateOf("")
@@ -163,7 +150,7 @@ fun ShowSimpleForm(book: MBook,
                 }
 
             } else {
-                Text(text = "Started on: ${formatDate(book.startedReading!!)}")
+                Text(text = "Started on: ${book.startedReading}") //TODO: format date
             }
             Spacer(modifier = Modifier.height(4.dp))
             TextButton(
@@ -178,12 +165,11 @@ fun ShowSimpleForm(book: MBook,
                             text = "Finished reading",
                             modifier = Modifier.alpha(0.6f),
                             color = Color.Red.copy(alpha = 0.5f)
-
                         )
                     }
 
                 } else {
-                    Text(text = "Finished on: ${formatDate(book.startedReading!!)}")
+                    Text(text = "Finished on: ${book.startedReading}") //TODO: format date
                 }
 
             }
@@ -194,93 +180,9 @@ fun ShowSimpleForm(book: MBook,
         RatingBar(rating = it!!){rating ->
             ratingVal.value = rating
         }
-    }
-    Spacer(modifier =Modifier.padding(bottom = 15.dp))
-
-    val changeNotes = book.notes != notesText.value
-    val changeRating = book.rating?.toInt() != ratingVal.value
-    val isFinishedTimeStamp = if (isFinishedReading.value) Timestamp.now() else book.finishedReading
-    val isStartedTimeStamp = if(isStartedReading.value) Timestamp.now() else book.startedReading
-
-    val bookUpdate = changeNotes || changeRating || isStartedReading.value ||isFinishedReading.value
-
-    val bookToUpdate = hashMapOf(
-        "finished_reading_at" to isFinishedTimeStamp,
-        "started_reading_at" to isStartedTimeStamp,
-        "rating" to ratingVal.value,
-        "notes" to notesText.value).toMap()
-
-    Row {
-        RoundedButton(label = "Update"){
-            if (bookUpdate){
-                FirebaseFirestore.getInstance().collection("books")
-                    .document(book.id!!).update(bookToUpdate).addOnCompleteListener{
-                        showToast(context, "Book updated successfully")
-                        navController.navigate(ReaderScreens.ReaderHomeScreen.name)
-
-                    }.addOnFailureListener {
-                        Log.d("Error", "Error updating document", it)
-                    }
-            }
-
-        }
-
-        Spacer(modifier = Modifier.width(100.dp))
-
-        val openDialog = remember{
-            mutableStateOf(false)
-        }
-
-        if (openDialog.value){
-            ShowAlertDialog(message = stringResource(id = R.string.sure) + "\n" + stringResource(id = R.string.action), openDialog){
-                FirebaseFirestore.getInstance()
-                                 .collection("books")
-                                 .document(book.id!!)
-                                 .delete()
-                                 .addOnCompleteListener {
-                                     if (it.isSuccessful){
-                                            openDialog.value = false
-                                            navController.navigate(ReaderScreens.ReaderHomeScreen.name)}
-                }
-            }
-        }
-
-        RoundedButton(label = "Delete"){
-            openDialog.value = true
-        }
 
     }
 }
-
-@Composable
-fun ShowAlertDialog(message: String,
-                    openDialog: MutableState<Boolean>,
-                    onYesPressed: () -> Unit) {
-
-    if (openDialog.value){
-        AlertDialog(onDismissRequest = { /*TODO*/ },
-                    title = { Text(text = "Delete book") },
-                    text = { Text(text = message) },
-                    buttons = {
-                        Row(modifier = Modifier.padding(8.dp),
-                            horizontalArrangement = Arrangement.Center) {
-
-                            TextButton(onClick = { onYesPressed.invoke() }) {
-                                Text(text = "Yes")
-                            }
-                            TextButton(onClick = { openDialog.value = false }) {
-                                Text(text = "No")
-                            }
-                        }
-                    })
-    }
-
-}
-
-fun showToast(context: Context, msg: String) {
-    Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
-}
-
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
