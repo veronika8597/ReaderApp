@@ -88,7 +88,7 @@ fun HomeContent(navController: NavController, viewModel: HomeScreenViewModel){
         listOfBooks = viewModel.data.value.data!!.toList().filter { mBook ->
         mBook.userId == currentUser?.uid.toString()
         }
-        Log.d("Books", "HomeContent: ${listOfBooks.toString()}")
+        Log.d("Books", "HomeContent: $listOfBooks")
 
     }
 
@@ -112,11 +112,11 @@ fun HomeContent(navController: NavController, viewModel: HomeScreenViewModel){
                             navController.navigate(ReaderScreens.ReaderStatsScreen.name)
                         }
                         .size(45.dp),
-                    tint = MaterialTheme.colors.secondaryVariant)
+                    tint = MaterialTheme.colors.primaryVariant)
                 Text(text = currentUserName!!,
                     modifier = Modifier.padding(2.dp),
                     style = MaterialTheme.typography.overline,
-                    color = Color.Red,
+                    color = Color.Black,
                     fontSize = 15.sp,
                     maxLines = 1,
                     overflow = TextOverflow.Clip)
