@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.bawp.freader.screens.stats.ReaderStatsScreen
 import com.example.myreaderapp.screens.ReaderSplashScreen
 import com.example.myreaderapp.screens.details.BookDetailsScreen
 import com.example.myreaderapp.screens.home.Home
@@ -17,7 +18,6 @@ import com.example.myreaderapp.screens.home.HomeScreenViewModel
 import com.example.myreaderapp.screens.login.ReaderLoginScreen
 import com.example.myreaderapp.screens.search.BookSearchViewModel
 import com.example.myreaderapp.screens.search.ReaderSearchScreen
-import com.example.myreaderapp.screens.stats.ReaderStatsScreen
 import com.example.myreaderapp.screens.update.BookUpdateScreen
 
 @OptIn(ExperimentalComposeUiApi::class)
