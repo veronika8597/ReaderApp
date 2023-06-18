@@ -125,7 +125,7 @@ fun InputField(modifier: Modifier = Modifier,
                onAction: KeyboardActions = KeyboardActions.Default) {
 
     OutlinedTextField(value = valueState.value, onValueChange = {valueState.value = it},
-        label = { Text(text = lableId)},
+        label = { Text(text = lableId, style = QuickSandTypography.h4)},
         singleLine = isSingleLine,
         textStyle = TextStyle(fontSize = 18.sp,
             color = MaterialTheme.colors.onBackground),
@@ -154,7 +154,7 @@ fun PasswordInput(modifier: Modifier,
 
     OutlinedTextField(value = passwordState.value,
         onValueChange = { passwordState.value = it },
-        label = { Text(text = lableId) },
+        label = { Text(text = lableId, style = QuickSandTypography.h4) },
         singleLine = true,
         textStyle = TextStyle(
             fontSize = 18.sp,
@@ -180,7 +180,7 @@ fun BookRating(score: Double = 4.5) {
         .padding(4.dp), shape = RoundedCornerShape(56.dp), elevation = 6.dp, color = Color.White) {
         Column(modifier = Modifier.padding(4.dp)) {
             Icon(imageVector = Icons.Filled.StarBorder, contentDescription = "Star", modifier = Modifier.padding(3.dp))
-            Text(text = score.toString(), style = MaterialTheme.typography.subtitle1)
+            Text(text = score.toString(), style = QuickSandTypography.subtitle1)
 
         }
 
@@ -199,7 +199,10 @@ fun ListCard(book: MBook,
     val screenWidth = displayMetrics.widthPixels / displayMetrics.density
     val spacing = 10.dp
 
-    Card(shape = RoundedCornerShape(29.dp), backgroundColor = Color.White.copy(alpha = 0.87f), elevation = 6.dp, modifier = Modifier
+    Card(shape = RoundedCornerShape(29.dp),
+        backgroundColor = Color.White.copy(alpha = 0.87f),
+        elevation = 6.dp,
+        modifier = Modifier
         .padding(16.dp)
         .height(242.dp)
         .width(202.dp)
@@ -225,12 +228,13 @@ fun ListCard(book: MBook,
             Text(text = book.title.toString(),
                 modifier = Modifier.padding(4.dp),
                 fontWeight = FontWeight.Bold,
+                fontFamily= FontFamily(Font(R.font.quicksand_medium, FontWeight.W300)),
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis)
 
             Text(text = book.authors.toString(),
                 modifier = Modifier.padding(4.dp),
-                style = MaterialTheme.typography.caption)}
+                style = QuickSandTypography.caption)}
 
             val isStartedReading = remember {
                 mutableStateOf(false)

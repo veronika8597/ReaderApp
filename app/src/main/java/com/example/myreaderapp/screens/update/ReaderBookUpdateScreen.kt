@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -192,13 +193,13 @@ fun ShowSimpleForm(book: MBook,
             }
         }
     }
-    Text(text = "Rating", modifier = Modifier.padding(bottom = 3.dp))
+    Text(text = "Rating", modifier = Modifier.padding(bottom = 3.dp), style = QuickSandTypography.h4)
     book.rating?.toInt().let {
         RatingBar(rating = it!!){rating ->
             ratingVal.value = rating
         }
     }
-    Spacer(modifier =Modifier.padding(bottom = 15.dp))
+    Spacer(modifier = Modifier.padding(bottom = 15.dp))
 
     val changeNotes = book.notes != notesText.value
     val changeRating = book.rating?.toInt() != ratingVal.value
