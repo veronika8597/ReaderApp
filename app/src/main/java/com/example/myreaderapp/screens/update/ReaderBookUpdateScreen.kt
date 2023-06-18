@@ -59,6 +59,7 @@ import com.example.myreaderapp.data.DataOrException
 import com.example.myreaderapp.model.MBook
 import com.example.myreaderapp.navigation.ReaderScreens
 import com.example.myreaderapp.screens.home.HomeScreenViewModel
+import com.example.myreaderapp.ui.theme.QuickSandTypography
 import com.example.myreaderapp.utils.formatDate
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
@@ -138,7 +139,7 @@ fun ShowSimpleForm(book: MBook,
         mutableStateOf(0)
     }
 
-    SimpleForm(defaultValue = book.notes.toString().ifEmpty { "No thoughts available." }) { note ->
+    SimpleForm(defaultValue = book.notes.toString().ifEmpty { "No thoughts available."}) { note ->
         notesText.value = note
     }
 
@@ -153,17 +154,18 @@ fun ShowSimpleForm(book: MBook,
         ) {
             if (book.startedReading == null) {
                 if (!isStartedReading.value) {
-                    Text(text = "Start Reading")
+                    Text(text = "Start Reading", style = QuickSandTypography.h5)
                 } else {
                     Text(
                         text = "Reading in progress",
+                        style = QuickSandTypography.h5,
                         modifier = Modifier.alpha(0.6f),
                         color = Color.Red.copy(alpha = 0.5f)
                     )
                 }
 
             } else {
-                Text(text = "Started on: ${formatDate(book.startedReading!!)}")
+                Text(text = "Started on: ${formatDate(book.startedReading!!)}", style = QuickSandTypography.h5)
             }
             Spacer(modifier = Modifier.height(4.dp))
             TextButton(
@@ -172,10 +174,11 @@ fun ShowSimpleForm(book: MBook,
             ) {
                 if (book.finishedReading == null) {
                     if (!isFinishedReading.value) {
-                        Text(text = "Mark as read")
+                        Text(text = "Mark as read", style = QuickSandTypography.h5)
                     } else {
                         Text(
                             text = "Finished reading",
+                            style = QuickSandTypography.h5,
                             modifier = Modifier.alpha(0.6f),
                             color = Color.Red.copy(alpha = 0.5f)
 
@@ -183,7 +186,7 @@ fun ShowSimpleForm(book: MBook,
                     }
 
                 } else {
-                    Text(text = "Finished on: ${formatDate(book.startedReading!!)}")
+                    Text(text = "Finished on: ${formatDate(book.startedReading!!)}", style = QuickSandTypography.h5)
                 }
 
             }

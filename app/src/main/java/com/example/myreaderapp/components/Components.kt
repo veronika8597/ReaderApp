@@ -7,6 +7,7 @@ import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -49,11 +50,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -72,9 +76,12 @@ import com.example.myreaderapp.model.MBook
 import com.example.myreaderapp.navigation.ReaderScreens
 import com.example.myreaderapp.ui.theme.BerkshireSwash
 import com.example.myreaderapp.ui.theme.BerkshireSwashTypography
+import com.example.myreaderapp.ui.theme.Green200
 import com.example.myreaderapp.ui.theme.Green500
 import com.example.myreaderapp.ui.theme.Green700
+import com.example.myreaderapp.ui.theme.QuickSandTypography
 import com.google.firebase.auth.FirebaseAuth
+import kotlin.math.round
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -212,31 +219,52 @@ fun ListCard(book: MBook,
                 Column(modifier = Modifier.padding(top = 25.dp), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(imageVector = Icons.Rounded.FavoriteBorder, contentDescription = "Fav Icon", modifier = Modifier.padding(bottom = 1.dp))
 
-                    BookRating(score = 3.5)
-                }
+                    BookRating(score = book.rating!!)                }
 
             }
-            Text(text = book.title.toString(), modifier = Modifier.padding(4.dp), fontWeight = FontWeight.Bold, maxLines = 2, overflow = TextOverflow.Ellipsis)
-            Text(text = book.authors.toString(), modifier = Modifier.padding(4.dp), style = MaterialTheme.typography.caption)
+            Text(text = book.title.toString(),
+                modifier = Modifier.padding(4.dp),
+                fontWeight = FontWeight.Bold,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis)
 
-        }
+            Text(text = book.authors.toString(),
+                modifier = Modifier.padding(4.dp),
+                style = MaterialTheme.typography.caption)}
 
-        Row(horizontalArrangement = Arrangement.End, verticalAlignment = Alignment.Bottom) {
-            RoundedButton(label = "Reading", radius = 70)
+            val isStartedReading = remember {
+                mutableStateOf(false)
+            }
+
+            Row(horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.Bottom) {
+                isStartedReading.value = book.startedReading != null
+
+
+                RoundedButton(label = if (isStartedReading.value)  "Reading" else "Not Yet",
+                    radius = 70)
         }
     }
 }
 @Preview
 @Composable
-fun RoundedButton(label: String = "Reading", radius: Int = 29,onPress: () -> Unit = {}){
+fun RoundedButton(label: String = "Reading",
+                  radius: Int = 29,
+                  onPress: () -> Unit = {}){
 
-    Surface(modifier = Modifier.clip(RoundedCornerShape(bottomEndPercent = radius, topStartPercent = radius)), color = Color(0xFF9DC087)) {
+    Surface(modifier = Modifier.clip(RoundedCornerShape(
+        bottomEndPercent = radius,
+        topStartPercent = radius)),
+        color = Color(0xFF9DC087)) {
+
         Column(modifier = Modifier
             .width(90.dp)
             .heightIn(40.dp)
-            .clickable { onPress.invoke() }, verticalArrangement =  Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+            .clickable { onPress.invoke() },
+            verticalArrangement =  Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally) {
 
-            Text(text = label, style = TextStyle(color = Color.White, fontSize = 15.sp) )
+            Text(text = label, style = TextStyle(color = Color.White, fontSize = 15.sp, fontFamily= FontFamily(Font(R.font.quicksand_medium, FontWeight.W300))))
 
         }
     }
@@ -260,7 +288,7 @@ fun TitleSection(modifier: Modifier = Modifier, label:String){
         Column {
             Text(text = label,
                 fontSize = 19.sp,
-                fontStyle = FontStyle.Normal,
+                style = QuickSandTypography.h4,
                 textAlign = TextAlign.Left)
         }
     }

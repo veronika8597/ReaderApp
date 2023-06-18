@@ -2,6 +2,7 @@ package com.example.myreaderapp.screens.home
 
 
 import android.annotation.SuppressLint
+import android.graphics.Paint
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -46,7 +47,9 @@ import com.example.myreaderapp.components.TitleSection
 import com.example.myreaderapp.model.MBook
 import com.example.myreaderapp.navigation.ReaderScreens
 import com.example.myreaderapp.ui.theme.Green700
+import com.example.myreaderapp.ui.theme.QuickSandTypography
 import com.google.firebase.auth.FirebaseAuth
+import java.nio.file.WatchEvent
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -115,7 +118,7 @@ fun HomeContent(navController: NavController, viewModel: HomeScreenViewModel){
                     tint = MaterialTheme.colors.primaryVariant)
                 Text(text = currentUserName!!,
                     modifier = Modifier.padding(2.dp),
-                    style = MaterialTheme.typography.overline,
+                    style = QuickSandTypography.overline,
                     color = Color.Black,
                     fontSize = 15.sp,
                     maxLines = 1,
@@ -131,9 +134,6 @@ fun HomeContent(navController: NavController, viewModel: HomeScreenViewModel){
         TitleSection(label = "Reading List")
         BookListArea(listOfBooks = listOfBooks,
             navController = navController)
-
-
-
     }
 
 }

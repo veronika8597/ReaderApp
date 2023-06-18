@@ -41,6 +41,7 @@ import com.example.myreaderapp.model.Item
 import com.example.myreaderapp.model.MBook
 import com.example.myreaderapp.navigation.ReaderScreens
 import com.example.myreaderapp.ui.theme.Coral500
+import com.example.myreaderapp.ui.theme.QuickSandTypography
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -76,7 +77,7 @@ fun BookDetailsScreen(navController: NavController,
                 if (bookInfo.data == null) {
                     Row() {
                         LinearProgressIndicator()
-                        Text("Loading...")
+                        Text("Loading...", style = QuickSandTypography.h4)
                     }
 
                 } else {
@@ -109,22 +110,22 @@ fun ShowBookDetails(bookInfo: Resource<Item>, navController: NavController) {
 
     Text(
         text = bookData?.title.toString(),
-        style = MaterialTheme.typography.h6,
+        style = QuickSandTypography.h2,
         overflow = TextOverflow.Ellipsis,
         maxLines = 19
     )
 
-    Text(text = "Authors: ${bookData?.authors.toString()}")
-    Text(text = "Page Count: ${bookData?.pageCount.toString()}")
+    Text(text = "Authors: ${bookData?.authors.toString()}", style = QuickSandTypography.h4)
+    Text(text = "Page Count: ${bookData?.pageCount.toString()}", style = QuickSandTypography.h4)
     Text(
         text = "Categories: ${bookData?.categories.toString()}",
-        style = MaterialTheme.typography.subtitle1,
+        style = QuickSandTypography.subtitle1,
         maxLines = 3,
         overflow = TextOverflow.Ellipsis
     )
     Text(
         text = "Published: ${bookData?.publishedDate.toString()}",
-        style = MaterialTheme.typography.subtitle1
+        style = QuickSandTypography.subtitle1
     )
 
     Spacer(modifier = Modifier.height(5.dp))
@@ -143,7 +144,7 @@ fun ShowBookDetails(bookInfo: Resource<Item>, navController: NavController) {
 
             LazyColumn(modifier = Modifier.padding(3.dp)) {
                 item {
-                    Text(text = cleanDescription)
+                    Text(text = cleanDescription, style = QuickSandTypography.h5)
                 }
             }
     }

@@ -48,6 +48,7 @@ import com.example.myreaderapp.components.InputField
 import com.example.myreaderapp.components.ReaderAppBar
 import com.example.myreaderapp.model.Item
 import com.example.myreaderapp.navigation.ReaderScreens
+import com.example.myreaderapp.ui.theme.QuickSandTypography
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -149,21 +150,21 @@ fun BookRow(book: Item, navController: NavController) {
                 .padding(end = 4.dp))
 
             Column() {
-                Text(text = book.volumeInfo.title, overflow = TextOverflow.Ellipsis)
+                Text(text = book.volumeInfo.title, overflow = TextOverflow.Ellipsis, style = QuickSandTypography.h4)
                 Text(text =  "Author: ${book.volumeInfo.authors}",
                     overflow = TextOverflow.Clip,
                     fontStyle = FontStyle.Italic,
-                    style = MaterialTheme.typography.caption)
+                    style = QuickSandTypography.caption)
 
                 Text(text =  "Date: ${book.volumeInfo.publishedDate}",
                     overflow = TextOverflow.Clip,
                     fontStyle = FontStyle.Italic,
-                    style = MaterialTheme.typography.caption)
+                    style = QuickSandTypography.caption)
 
                 Text(text =  "${book.volumeInfo.categories}",
                     overflow = TextOverflow.Clip,
                     fontStyle = FontStyle.Italic,
-                    style = MaterialTheme.typography.caption)
+                    style = QuickSandTypography.caption)
             }
         }
     }
