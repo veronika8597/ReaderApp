@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -324,7 +323,7 @@ fun ShowBookUpdate(
         bookInfo: DataOrException<List<MBook>, Boolean, Exception>,
         bookItemId: String
     ) {
-    Row() {
+    Row {
         Spacer(modifier = Modifier.width(43.dp))
         if (bookInfo.data != null) {
             Column(

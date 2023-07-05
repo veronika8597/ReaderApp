@@ -99,7 +99,7 @@ fun ShowBookDetails(bookInfo: Resource<Item>, navController: NavController) {
         shape = RectangleShape, elevation = 4.dp
     ) {
         Image(
-            painter = rememberImagePainter(data = bookData!!.imageLinks.thumbnail),
+            painter = rememberImagePainter(data = bookData?.imageLinks?.thumbnail),
             contentDescription = "Book Image",
             modifier = Modifier
                 .width(90.dp)
@@ -130,8 +130,11 @@ fun ShowBookDetails(bookInfo: Resource<Item>, navController: NavController) {
 
     Spacer(modifier = Modifier.height(5.dp))
 
-    val cleanDescription = HtmlCompat.fromHtml(bookData!!.description,
-                                               HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
+    val cleanDescription = bookData?.description?.let {
+        HtmlCompat.fromHtml(
+            it,
+            HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
+    }
 
     val localDims = LocalContext.current.resources.displayMetrics
 
@@ -144,7 +147,9 @@ fun ShowBookDetails(bookInfo: Resource<Item>, navController: NavController) {
 
             LazyColumn(modifier = Modifier.padding(3.dp)) {
                 item {
-                    Text(text = cleanDescription, style = QuickSandTypography.h5)
+                    if (cleanDescription != null) {
+                        Text(text = cleanDescription, style = QuickSandTypography.h5)
+                    }
                 }
             }
     }
@@ -155,14 +160,14 @@ fun ShowBookDetails(bookInfo: Resource<Item>, navController: NavController) {
         RoundedButton(label = "Save"){
             //Save the book into the FireBase DB
             val book = MBook(
-                title = bookData.title,
-                authors = bookData.authors.toString(),
-                description = bookData.description,
-                categories = bookData.description,
+                title = bookData?.title,
+                authors = bookData?.authors.toString(),
+                description = bookData?.description,
+                categories = bookData?.description,
                 notes = "",
-                photoUrl = bookData.imageLinks.thumbnail,
-                publishedDate = bookData.publishedDate,
-                pageCount = bookData.pageCount.toString(),
+                photoUrl = bookData?.imageLinks?.thumbnail,
+                publishedDate = bookData?.publishedDate,
+                pageCount = bookData?.pageCount.toString(),
                 rating = 0.0,
                 googleBookId = googleBookId,
                 userId = FirebaseAuth.getInstance().currentUser?.uid.toString()
